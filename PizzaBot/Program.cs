@@ -7,11 +7,9 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Data;
 using System.Threading.Tasks;
-using System.Threading;
 
 namespace PizzaBot
 {
-   
     class Program
     {
         static ITelegramBotClient bot;
@@ -100,7 +98,7 @@ namespace PizzaBot
                 return;
             }
             r.Close();
-            string c = $"INSERT INTO [Users] (chatid,Name)VALUES({m.Chat.Id.ToString()},'{ m.Chat.FirstName + m.Chat.LastName}')";
+            string c = $"INSERT INTO [Users] (chatid,Name)VALUES({m.Chat.Id},'{ m.Chat.FirstName + m.Chat.LastName}')";
 
             SqlCommand command = new SqlCommand(c, DB.GetConnection());
             await command.ExecuteNonQueryAsync();
@@ -111,7 +109,6 @@ namespace PizzaBot
             //try
             //{
             Message m = e.Message;
-            Thread.CurrentThread.Name = $"Обробка {m.Chat.FirstName}";
             if (!Users.ContainsKey(m.Chat.Id))
             {
                 Users.Add(m.Chat.Id, new User());
@@ -457,7 +454,7 @@ namespace PizzaBot
             if (r["phonenumber"].ToString() == "")
             {
                 Send("Введіть свій номер телефону", m.Chat.Id, Menu.back);
-                Users[m.Chat.Id].Status = UserStat.EnteringPhone;
+                Users[m.Chat.Id].Status = UserStat.EnteringPhoneToOrd;
                 r.Close();
                 DB.Close();
             }
@@ -477,7 +474,7 @@ namespace PizzaBot
             if (r["addres"].ToString() == "")
             {
                 Send("Введіть свій адрес", m.Chat.Id, Menu.back);
-                Users[m.Chat.Id].Status = UserStat.EnteringAddres;
+                Users[m.Chat.Id].Status = UserStat.EnteringAddresToOrd;
                 r.Close();
                 DB.Close();
             }

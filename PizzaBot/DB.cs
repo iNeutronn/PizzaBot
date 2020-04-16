@@ -1,10 +1,11 @@
 ﻿using System.Data.SqlClient;
 using System.Data;
+
 namespace PizzaBot
 {
     class DB
     {
-        private readonly SqlConnection connection = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\User\source\repos\PizzaBot\PizzaBot\Database.mdf;Integrated Security=True");
+        private readonly SqlConnection connection = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\User\source\repos\PizzaBot\PizzaBot\Database1.mdf;Integrated Security=True");
         public async void OpenAsync()
         {
             if(connection.State == ConnectionState.Closed)

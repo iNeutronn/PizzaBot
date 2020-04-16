@@ -24,10 +24,7 @@ namespace PizzaBot
             ResizeKeyboard = true,
             OneTimeKeyboard = true
         };
-        public static readonly InlineKeyboardMarkup back = new InlineKeyboardMarkup
-            (
-                InlineKeyboardButton.WithCallbackData("Назад")
-            );
+        public static readonly InlineKeyboardMarkup back = new InlineKeyboardMarkup(InlineKeyboardButton.WithCallbackData("Назад"));
         public static readonly ReplyKeyboardMarkup dish_type = new ReplyKeyboardMarkup
         {
             Keyboard = new[]
@@ -74,7 +71,8 @@ namespace PizzaBot
                         new KeyboardButton("Очистити кошик")
                     }
                 },
-                ResizeKeyboard = true
+                ResizeKeyboard = true,
+                OneTimeKeyboard = true
             };
         }
         public static ReplyKeyboardMarkup ConfigmNo = new ReplyKeyboardMarkup
@@ -185,7 +183,8 @@ namespace PizzaBot
                     new KeyboardButton("Ні продовжити покупки")
                 }
             },
-            ResizeKeyboard = true
+            ResizeKeyboard = true,
+            OneTimeKeyboard = true
         };
     }
 }
