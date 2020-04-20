@@ -21,5 +21,12 @@ namespace PizzaBot
             Status = UserStat.WaitCommand;
             start = new DateTime();
         }
+        public void Clear_card()
+        {
+            addons = new List<string>();
+            order = new List<int>();
+            orderCreatePizza = new List<string>();
+            Status = UserStat.WaitCommand;
+        }
     }
 }

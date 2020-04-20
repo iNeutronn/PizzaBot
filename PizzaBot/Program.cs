@@ -51,7 +51,7 @@ namespace PizzaBot
             {
                 int id = int.Parse(s[1]);
                 Users[m.Chat.Id].order.Add(id);
-                Send("Ще щось?", m.Chat.Id, Menu.Order(Users[m.Chat.Id].order.Count));
+                Send("Ще щось?", m.Chat.Id, Menu.Order(Users[m.Chat.Id].order.Count + Users[m.Chat.Id].orderCreatePizza.Count));
             }
         }
         private static void WaitingCommand(Message m)
@@ -269,7 +269,6 @@ namespace PizzaBot
                     break;
                 case "Так підтвердити замовлення":
                     Send("Ваше замовлення прийняте", m.Chat.Id, Menu.main_menu);
-                    Users[m.Chat.Id].Status = UserStat.WaitCommand;
                     string ord = GetOrder(m);
                     DB.OpenAsync();
                     while (DB.GetConnection().State != ConnectionState.Open) ;
@@ -281,6 +280,7 @@ namespace PizzaBot
                     Send(text, id_admin);
                     await r.CloseAsync();
                     DB.Close();
+                    Users[m.Chat.Id].Clear_card();
                     break;
             }
         }
@@ -443,7 +443,7 @@ namespace PizzaBot
                 CheckPhone(m);
             }
             else if (m.Text == "Виберайте те що досмаку)")
-                Send("Виберіть хоча б 1 страву", m.Chat.Id);
+                Send("Виберіть хоча б 1 страву", m.Chat.Id,Menu.Order(Users[m.Chat.Id].order.Count + Users[m.Chat.Id].orderCreatePizza.Count)) ;
         }
         private async static void CheckPhone(Message m)
         {
@@ -547,7 +547,7 @@ namespace PizzaBot
                             Console.WriteLine("Wrong link");
                         }
                 }
-                Send("Вибирайте те що до смаку)", m.Chat.Id, Menu.Order(Users[m.Chat.Id].order.Count));
+                Send("Вибирайте те що до смаку)", m.Chat.Id, Menu.Order(Users[m.Chat.Id].order.Count + Users[m.Chat.Id].orderCreatePizza.Count));
                 Users[m.Chat.Id].Status = UserStat.EditOrder;
                 reader.Close();
             }
