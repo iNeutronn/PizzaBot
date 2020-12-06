@@ -8,6 +8,7 @@ using System.Data.SqlClient;
 using System.Data;
 using System.Threading.Tasks;
 using System.IO;
+using System.Threading;
 
 namespace PizzaBot
 {
@@ -110,6 +111,7 @@ namespace PizzaBot
         {
             //try
             //{
+            Thread.CurrentThread.Name = $"Working {e.Message.Chat.FirstName}";
             Message m = e.Message;
             if (!Users.ContainsKey(m.Chat.Id))
             {
@@ -431,8 +433,9 @@ namespace PizzaBot
             string[] c = m.Text.Split();
             if (m.Text == "Очистити кошик")
             {
-                Send("Кошик очищений", m.Chat.Id, Menu.Order(0));
                 Users[m.Chat.Id].order = new List<int>();
+                Send("Кошик очищений", m.Chat.Id, Menu.Order(0));
+                
             }
             else if (m.Text == "Назад")
             {
@@ -502,7 +505,7 @@ namespace PizzaBot
                     Users[m.Chat.Id].Status = UserStat.CreatingPizza;
                     Users[m.Chat.Id].PizzaStat = PizzaStat.ChoosingSize;
                     break;
-                case "Інше":
+                case "Інші страви":
                     SendPropoz(GroupDish.Other, m);
                     break;
                 case "Назад":
