@@ -7,10 +7,12 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Data;
 using System.Threading.Tasks;
+using System.IO;
 
 namespace PizzaBot
 {
     class Program
+
     {
         static ITelegramBotClient bot;
         const byte MinAddresLength = 7;
@@ -624,12 +626,15 @@ namespace PizzaBot
             }
             DB.Close();
         }
-        static void SendToAdmin(Message m)
+        static async void SendToAdmin(Message m)
         {
-
+            StreamWriter sw = new StreamWriter("Propose.txt");
             Console.WriteLine("Користувач {1} передає {0}", m.Text, m.Chat.FirstName + " " + m.Chat.LastName);
+            await sw.WriteLineAsync("[{DateTime.Now.Day}:{DateTime.Now.Month}:{DateTime.Now.Year}]" +
+                $" [{DateTime.Now.Hour}:{DateTime.Now.Minute}:{DateTime.Now.Second}] Name:{m.Chat.FirstName} Text: {m.Text}");
             Send("Обовязково передамо адміністрації", m.Chat.Id, Menu.main_menu);
             Users[m.Chat.Id].Status = UserStat.WaitCommand;
+            sw.Close();
         }
         static async void Send(string Text, long id, IReplyMarkup r = null)
         {
